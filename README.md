@@ -133,3 +133,26 @@ python3 -m sexforgrades donor-report --donor "Example Foundation" --institution 
 # Aggregate donor reports
 python3 -m sexforgrades donor-aggregate --out donor_aggregate.json --json
 ```
+
+## Mass Organisation Against Repression & Big Education Cartels
+
+SexForGrades supports student self-organisation using the **mass line**: investigate, expose, unite, struggle.
+
+- **Campaign Tools**: Create system-focused campaigns (missing marks cartels, donor capture, science suppression) without targeting individuals for harassment.
+- **Mass Petitions**: Generate policy-based petitions with additional collective demands.
+- **Repression Defence**: Safety checklist and verified legal referrals (FIDA Kenya, Kituo Cha Sheria, KNCHR, ICJ Kenya).
+- **Cartel Exposure**: Combine Missing Marks Ledger, Donor Watch, and aggregate dashboards to expose cartels making graduation impossible through bureaucratic violence.
+
+```bash
+# Create a campaign
+python3 -m sexforgrades campaign-create --name "Free The Sciences" --demand "Ring-fence science funding" --demand "End missing marks weaponisation"
+
+# Add collective action
+python3 -m sexforgrades campaign-action --id free_the_sciences --type petition --desc "Collect signatures for mass petition"
+
+# Generate mass petition
+python3 -m sexforgrades mass-petition --institution KeMU --demand "Independent audit of results" --demand "Protection from retaliation"
+
+# Repression defence
+python3 -m sexforgrades repression-defense
+```

@@ -396,6 +396,31 @@ def build_parser():
     s.add_argument("--json", action="store_true")
     s.set_defaults(func=cmd_donor_aggregate)
 
+
+    s = sub.add_parser("campaign-create", help="Create student campaign (systems-focused)")
+    s.add_argument("--name", required=True)
+    s.add_argument("--demand", action="append")
+    s.add_argument("--target", action="append")
+    s.add_argument("--root", default="./campaigns")
+    s.add_argument("--json", action="store_true")
+    s.set_defaults(func=cmd_campaign_create)
+
+    s = sub.add_parser("campaign-action", help="Add action to campaign")
+    s.add_argument("--id", required=True)
+    s.add_argument("--type", required=True)
+    s.add_argument("--desc", required=True)
+    s.add_argument("--root", default="./campaigns")
+    s.set_defaults(func=cmd_campaign_action)
+
+    s = sub.add_parser("mass-petition", help="Generate mass petition with additional demands")
+    s.add_argument("--institution")
+    s.add_argument("--demand", action="append")
+    s.set_defaults(func=cmd_mass_petition)
+
+    s = sub.add_parser("repression-defense", help="Safety checklist and legal referrals")
+    s.add_argument("--json", action="store_true")
+    s.set_defaults(func=cmd_repression_defense)
+
     return p
 
 
@@ -473,4 +498,47 @@ def cmd_donor_aggregate(args):
             import json
             open(args.out,'w').write(json.dumps(res, indent=2))
             print(f"Wrote to {args.out}")
+    return 0
+
+
+def cmd_campaign_create(args):
+    from .organize import campaign
+    c = campaign.Campaign(root=args.root)
+    demands = args.demand or []
+    res = c.create_campaign(args.name, demands, targets=args.target or [])
+    if args.json:
+        _print(res)
+    else:
+        print(f"Campaign {res['id']} created")
+    return 0
+
+
+def cmd_campaign_action(args):
+    from .organize import campaign
+    c = campaign.Campaign(root=args.root)
+    res = c.add_action(args.id, args.type, args.desc)
+    print(f"Added action to {res['id']}")
+    return 0
+
+
+def cmd_mass_petition(args):
+    from .organize import campaign
+    c = campaign.Campaign(root=args.root)
+    demands = args.demand or []
+    res = c.mass_petition(demands, args.institution)
+    print(res)
+    return 0
+
+
+def cmd_repression_defense(args):
+    from .organize import defense
+    if args.json:
+        _print({"checklist": defense.get_safety_checklist(), "referrals": defense.get_legal_referrals()})
+    else:
+        print("SAFETY CHECKLIST:")
+        for i, item in enumerate(defense.get_safety_checklist(), 1):
+            print(f"  {i}. {item}")
+        print("\nLEGAL REFERRALS:")
+        for k, v in defense.get_legal_referrals().items():
+            print(f"  {v['name']}: {v['focus']}")
     return 0
