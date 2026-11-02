@@ -19,7 +19,7 @@ classifiers = [
 ]
 
 [project.scripts]
-plagcheck = "plagcheck.cli:main"
+sexforgrades = "sexforgrades.cli:main"
 
 [tool.setuptools]
-packages = ["plagcheck"]
+packages = ["sexforgrades"]
