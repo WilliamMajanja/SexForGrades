@@ -173,3 +173,20 @@ python3 -m sexforgrades handbook-inspect ke_mu_student_handbook.pdf --out cracks
 ```
 
 *For review by qualified Kenyan legal counsel. Focus on facts and contradictions.*
+
+## People's Education - Self-Paced Learning Framework
+
+Education must serve the masses, not commodified gatekeeping. SexForGrades includes a self-paced learning framework to build skills outside predatory systems:
+
+- **Mastery-Based**: Progress by demonstrated mastery, not time wasted in obstructionist bureaucracy.
+- **Student-Led**: Create learning paths for the sciences, technical skills, and critical theory.
+- **Collective**: Share resources, study groups, and build people's schools.
+- **Merit Through Competence**: Incentivise actual learning over rote compliance.
+
+```bash
+# Create learning path
+python3 -m sexforgrades learn-create --course "Mathematics for Liberation" --module "Algebra" --module "Calculus" --module "Proofs"
+
+# Assess mastery
+python3 -m sexforgrades learn-assess --done Algebra --done Calculus --req Algebra --req Calculus --req Proofs --json
+```

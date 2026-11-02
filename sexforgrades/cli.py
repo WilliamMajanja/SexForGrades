@@ -428,6 +428,21 @@ def build_parser():
     s.add_argument("--json", action="store_true")
     s.set_defaults(func=cmd_handbook_inspect)
 
+
+    s = sub.add_parser("learn-create", help="Create self-paced learning path")
+    s.add_argument("--course", required=True)
+    s.add_argument("--module", action="append")
+    s.add_argument("--root", default="./learning_paths")
+    s.add_argument("--json", action="store_true")
+    s.set_defaults(func=cmd_learn_create)
+
+    s = sub.add_parser("learn-assess", help="Assess mastery")
+    s.add_argument("--done", action="append")
+    s.add_argument("--req", action="append")
+    s.add_argument("--root", default="./learning_paths")
+    s.add_argument("--json", action="store_true")
+    s.set_defaults(func=cmd_learn_assess)
+
     return p
 
 
@@ -565,4 +580,29 @@ def cmd_handbook_inspect(args):
         if args.out:
             h.report(res, args.out)
             print(f"Wrote report to {args.out}")
+    return 0
+
+
+def cmd_learn_create(args):
+    from .learn import framework
+    l = framework.LearningPath(root=args.root)
+    modules = args.module or []
+    res = l.create_path(args.course, modules)
+    if args.json:
+        _print(res)
+    else:
+        print(f"Learning path for {res['course']} created")
+    return 0
+
+
+def cmd_learn_assess(args):
+    from .learn import framework
+    l = framework.LearningPath(root=args.root)
+    done = args.done or []
+    req = args.req or []
+    res = l.assess_mastery(done, req)
+    if args.json:
+        _print(res)
+    else:
+        print(f"Mastery: {res['mastery']}, Completion: {res['completion']:.1f}%")
     return 0
