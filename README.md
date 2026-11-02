@@ -1,60 +1,115 @@
 # SexForGrades — Students Liberation Engine (SLE)
 
-**A Students Liberation Engine built to question, audit and expose the legitimacy of tenured professorships across Kenya's public universities, private universities, and national polytechnics.**
+**A student-run, zero-dependency Students Liberation Engine built to question, audit and expose the legitimacy of tenured professorships across Kenya's public universities, private universities, and national polytechnics.**
 
-A zero-dependency, fully auditable forensic toolkit for students to verify academic credentials, publication records, supervision claims, and the integrity of those entrusted with power over their futures.
+SexForGrades is an evidence-first forensic toolkit. It equips students with the ability to verify academic credentials, publication records, supervision claims, and patterns of impunity using publicly verifiable documents. Everything runs locally, audibly, and with the bare minimum of data.
 
 ## The Kenyan Crisis
 
-For decades, Kenya's higher education sector has been captured by a culture of impunity. Positions of power — especially **tenured professorships, associate professorships, and senior academic posts** — have increasingly gone to individuals whose credentials, research output, and academic lineage do not withstand scrutiny. 
+For decades, Kenya's higher education has been captured by impunity. Tenured professorships, associate professorships and senior academic posts have too often gone by patronage rather than merit. 
 
-Lecturers and some professors weaponize **missing marks, delayed results, arbitrary failures, and sexual/coercive extortion (sex-for-grades)** to subjugate students whilst hiding behind titles they may not have legitimately earned. Those who dare to question are gaslit with "respect your professor", threatened, or victimized through the very systems they control.
+- **Missing marks as a weapon**: Results are delayed, "lost", or changed to force compliance.
+- **Sex-for-grades & extortion**: Sexual favors and bribes are demanded to clear legitimately earned marks.
+- **Victimisation**: Students who question are intimidated, gaslit with "respect your professor", or punished through the system.
+- **Committee cover-ups**: Identical boilerplate responses are sent to multiple students year after year.
 
 ## Kenya Methodist University (KeMU) — A Case Study
 
-The author's firsthand experience at **Kenya Methodist University (KeMU)** is instructive. KeMU presents itself as a Christian university, yet operates under the influence of the **GEMA** patronage network. In practice, this has translated to:
-- **Suppression of the sciences** — Students pursuing pure sciences (Mathematics, Physics, Chemistry, Biology, Computer Science, and related technical fields) are disproportionately subjected to missing marks, inexplicable grade changes, delayed processing, and administrative obstruction.
-- **Protection of the connected** — Those with political, ethnic, or institutional connections are shielded regardless of competence or conduct.
-- **Weaponized bureaucracy** — Complaints about missing marks vanish into committees whilst students suffer lost graduation dates, missed scholarships, and blocked opportunities.
-- **Credential opacity** — Many students have no way to verify if the people grading them or holding senior titles actually possess the qualifications they claim.
+At **Kenya Methodist University (KeMU)**, the author experienced this firsthand. Under heavy **GEMA** patronage influence whilst marketed as a Christian university:
+- **Science suppression**: Pure sciences (Mathematics, Physics, Chemistry, Biology, Computer Science and related fields) face disproportionate missing marks, grade obstruction and bureaucratic runarounds.
+- **Connected protected**: Patronage consistently shields the well-connected regardless of conduct or competence.
+- **Bureaucratic gaslighting**: Complaints vanish into endless committees whilst graduation dates, scholarships and opportunities slip away.
+- **Credential opacity**: Students are left in the dark about whether those grading them are actually qualified for the titles they hold.
 
-## The Students Liberation Engine
+## What SexForGrades Does
 
-SexForGrades is reimagined as the **Students Liberation Engine (SLE)**. It is a tool for academic accountability — empowering students to systematically audit those in power using publicly verifiable information.
+SexForGrades repurposes robust **winnowing fingerprinting (MOSS-style)** for accountability:
 
-### Core Capabilities
+| Capability | Purpose |
+|---|---|
+| **Professor Qualification Audit** | Build a verifiable corpus of CVs, CUE/commission profiles, staff pages and public claims to cross-reference against evidence. |
+| **Publication Forensics** | Detect duplicate/recycled publications, suspiciously similar abstracts, and boilerplate across "research". |
+| **Thesis Supervision Mapping** | Cross-reference who claims to supervise in fields with no demonstrable expertise or verifiable track record. |
+| **Missing Marks Ledger** | A student-driven, fact-based ledger of missing marks, extortion attempts, and follow-ups. Record dates, offices, names, responses — not just accusations. |
+| **Cover-Up Pattern Detection** | Compare committee/department responses to expose identical copy-pasted letters used across cohorts. |
+| **Forensic Inspection** | Detect tampering: zero-width characters (U+200B/C/D/U+2060), bidirectional marks, homoglyphs, mixed scripts and suspicious edits. |
+| **Evidence Preservation** | Hash files (SHA256), maintain a timeline of events, and keep an auditable chain of evidence for petitions and legal action. |
+| **Privacy-First by Design** | Runs 100% offline. No telemetry, no cloud sync, no exfiltration. You control your corpus. |
 
-- **Professor Qualification Audit** - Compare CVs, profiles, and published claims against verifiable records. Build a corpus of evidence on individuals holding tenured/senior posts.
-- **Publication Forensics** - Detect duplicate or recycled publications, suspiciously identical abstracts, and boilerplate text across "research" output.
-- **Thesis Supervision Mapping** - Document and cross-reference who claims to supervise in fields they have no demonstrable expertise in.
-- **Missing Marks Ledger** - Maintain an immutable, student-driven record of missing marks, extortion attempts, and cover-up patterns across departments.
-- **Document Pattern Detection** - Using robust winnowing (MOSS-style) fingerprinting, detect identical "committee response" letters sent to multiple students over years of complaints.
-- **Forensic Inspection** - Detect tampering: zero-width characters, bidirectional text, suspicious edits, and document anomalies.
-- **Zero-Dependency & Auditable** - Entirely Python standard library. Runs locally. No cloud uploads. Every line of code is readable and verifiable.
+## API / CLI Reference
 
-## Quick Start
+All commands are under the `sexforgrades` module/CLI:
 
 ```bash
-# Build an evidence corpus of professor profiles, CVs, responses, and testimonies
+# Identify & inspect documents forensics
+python3 -m sexforgrades identify <file>
+python3 -m sexforgrades inspect <file> --json
+python3 -m sexforgrades list-formats
+
+# Build and use evidence corpus
+python3 -m sexforgrades index <corpus_dir> --out evidence.index.json
+python3 -m sexforgrades check <submission> --corpus <dir> --html audit_report.html
+python3 -m sexforgrades check <submission> --index evidence.index.json --json-out report.json
+
+# Internal pattern detection (petitions/responses)
+python3 -m sexforgrades internal <file> --json
+
+# MCP server (stdio) for local tooling
+python3 -m sexforgrades mcp
+```
+
+Programmatic API (Python):
+```python
+from sexforgrades import CorpusIndex, analyze, extract_text
+from sexforgrades.core import registry
+from sexforgrades import forensics
+
+# Load evidence
+ci = CorpusIndex()
+ci.build("./corpus")
+
+# Audit against evidence
+res = analyze(extract_text("prof_cv.pdf"), ci)
+print(res.similarity, res.source_hits)
+```
+
+## Quick Start (Hands On)
+
+```bash
+# 1) Collect public evidence (CVs, staff profiles, publications, committee letters, emails)
+mkdir -p corpus
+
+# 2) Build the evidence index
 python3 -m sexforgrades index corpus --out sle.index.json
 
-# Compare a suspect CV/publication against known records
-python3 -m sexforgrades check professor_cv.txt --index sle.index.json --html audit_report.html
+# 3) Audit a suspect CV or publication
+python3 -m sexforgrades check suspect_cv.txt --index sle.index.json --html audit_report.html
 
-# Detect repeated cover-up responses across complaints
-python3 -m sexforgrades internal committee_response.txt
+# 4) Spot copy-pasted committee responses
+python3 -m sexforgrades internal department_response.txt
 
-# Forensically inspect a suspicious document/email
+# 5) Forensically inspect a suspicious letter/email
 python3 -m sexforgrades inspect suspicious_letter.pdf --json
 ```
 
+## Reporting Missing Marks & Sex-For-Grades (For Legal Action)
+
+SexForGrades is designed to feed into legal class action. Document responsibly:
+
+- **Facts only**: Date, time, office/department, person contacted, unit code, exact response received, witnesses (if any).
+- **Evidence**: Save emails, SMS, result slips, fee receipts, official letters. Hash them locally.
+- **Consent**: Only share with verified legal counsel (e.g. FIDA Kenya, Kituo Cha Sheria, KNCHR) with explicit consent.
+- **Anonymise**: For public petitions, aggregate patterns without exposing identities unless consented.
+- **Safety first**: If at immediate risk of retaliation, prioritise personal safety over documentation.
+
 ## Guiding Principles
 
-- **Students First** - The engine belongs to students. It is a weapon of documentation, not defamation. Stick to verifiable facts, documents, and public records.
-- **Evidence Over Hearsay** - Prioritize public profiles, official documents, emails, published papers, and firsthand documented testimony.
-- **Expose, Don't Harass** - The goal is institutional accountability and reform, not personal vendettas.
-- **Transparency** - The code must remain open, auditable, and free from hidden data exfiltration.
-- **Liberation Through Knowledge** - Informed students cannot be gaslit as easily. An educated student body armed with facts is the greatest threat to academic impunity.
+- **Students First** — This engine belongs to students. Documentation, not harassment.
+- **Evidence Over Hearsay** — Public records, official documents, emails, published papers, first-hand documented testimony.
+- **Merit Over Patronage** — Restore academic merit and protect students in the sciences.
+- **Transparency** — Open, auditable code. No hidden telemetry or data exfiltration.
+- **Safety & Consent** — Privacy, minimisation, and informed consent are non-negotiable.
+- **Liberation Through Knowledge** — Informed students are harder to gaslight.
 
 ## The Mission
 
@@ -62,6 +117,6 @@ python3 -m sexforgrades inspect suspicious_letter.pdf --json
 
 Every student deserves to know: *Is the person holding a professorial chair actually qualified for it? Does their body of work justify tenure? Or are they there by patronage whilst blocking others and extorting those beneath them?*
 
-The era of blind reverence is over. The Students Liberation Engine exists to restore academic merit, protect the sciences, and end the impunity that has rotted Kenyan higher education from within.
+The era of blind reverence is over. The **Students Liberation Engine** exists to restore academic merit, end impunity, and fight for justice in Kenyan higher education.
 
-*For every student bounced between offices at KeMU, UoN, KU, Moi, Egerton, JKUAT, Maseno, TUK, KPU, and every polytechnic fighting for their rightful marks.*
+*For every student bounced between offices at KeMU, UoN, KU, Moi, Egerton, JKUAT, Maseno, TUK, KPU, and every polytechnic fighting for their rightful marks. Solidarity with those currently protesting corrupt educators.*
