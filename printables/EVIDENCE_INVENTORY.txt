@@ -1,0 +1,19 @@
+SEXFORGRADES - EVIDENCE INVENTORY (CHAIN OF CUSTODY)
+====================================================
+
+Case Ref: __________________________
+Date: ____/____/____
+Recorded By: __________________________
+
+Item | Type (email/SMS/letter/slip) | Date | Source | SHA256 (if digital) | Custodian | Notes
+-----|-------------------------------|------|--------|---------------------|-----------|-------
+1    | _____________________________ | ____ | ______ | ___________________ | _________ | _______
+2    | _____________________________ | ____ | ______ | ___________________ | _________ | _______
+3    | _____________________________ | ____ | ______ | ___________________ | _________ | _______
+
+RULES:
+- Record facts only
+- Hash digital files (sha256sum)
+- Keep original copies where safe
+- Only share with consent to verified legal counsel
+- Separate public petitions from evidence locker

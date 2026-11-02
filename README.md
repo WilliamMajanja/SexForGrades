@@ -1,175 +1,212 @@
-# plagcheck
+# SexForGrades — Students Liberation Engine (SLE)
 
-A **zero-dependency**, Turnitin-style text similarity checker written in pure
-Python. It compares a submitted document against a local corpus of reference
-documents (and optionally web pages) and produces a similarity percentage,
-per-source breakdown, and a highlighted HTML report.
+**A student-run, zero-dependency Students Liberation Engine forged in the spirit of Marxist-Leninist-Maoist expressionism. Built to question, audit and expose the legitimacy of tenured professorships across Kenya's public universities, private universities, and national polytechnics.**
 
-Everything uses only the Python standard library. There is nothing to
-`pip install`:
+SexForGrades is an evidence-first forensic toolkit. It arms students with the means to verify academic credentials, publication records, supervision claims, and patterns of class-based impunity using publicly verifiable documents. Everything runs locally, auditable, and with the bare minimum of data.
 
-```sh
-python3 -m plagcheck --help
-```
+## Historical & Material Context
 
-## Why
+Kenya's higher education is not neutral. It is a product of colonial residue, comprador bourgeois class reproduction, and neo-colonial structural adjustment. The university has been captured to serve the interests of the ruling comprador class and their imperialist patrons rather than the masses of working students. 
 
-Turnitin compares submissions against a proprietary, closed database behind a
-paid service. `plagcheck` is a small, auditable, offline alternative: you
-control the corpus, you see the algorithm, and nothing leaves your machine.
+- **Missing marks as class warfare**: Results are deliberately delayed, "lost", or changed to discipline students and extort concessions.
+- **Sex-for-grades & extortion**: Sexual favors and bribes are demanded as instruments of patriarchal domination and class control.
+- **Victimisation of the masses**: Students who dare to resist are intimidated, gaslit with "respect your professor", or crushed through bureaucratic violence.
+- **Committee cover-ups**: Identical boilerplate responses expose a coordinated class defence of the petty-bourgeois academic clique.
+- **Science suppression**: Particularly at institutions like **Kenya Methodist University (KeMU)** under **GEMA** patronage networks, the pure sciences are sabotaged whilst theology and "safe" courses are propped up to reproduce a docile, conformist intelligentsia.
 
-It does **not** reproduce Turnitin's internet index or its institutional
-database. It is a similarity aid, not a verdict: a percentage is a signal for
-human review.
+## Marxist-Leninist-Maoist Expressionism
 
-## Features
+This project draws inspiration from the revolutionary tradition of exposing bourgeois ideology within institutions of learning. Like the mass line, it trusts the masses of students to investigate, document, and expose. Like Maoist mass criticism, it weaponises facts and evidence to shatter illusions of neutrality. 
 
-- Word n-gram fingerprinting with the **winnowing** algorithm (MOSS-style),
-  robust to small edits and reordering.
-- Overall similarity score plus per-source percentages and hit counts.
-- Character-level **highlighting** of matched passages in an HTML report.
-- Reads `.txt`, `.md`, `.csv`, `.json`, `.html`, `.docx` and `.pdf`
-  (best-effort, with ToUnicode decoding), or raw pasted text.
-- Optional web sources by URL (`urllib`), opt-in per run.
-- Internal **self-plagiarism** detection (repeated phrases within one document).
-- Exclude quotes and/or the reference list from the score.
-- Command-line interface, a native **desktop app** (Tkinter), and a local
-  **browser UI** (`http.server`).
-- Corpus index can be built once and reused (JSON).
+The struggle for academic merit is inseparable from the struggle against patronage, imperialism, gender oppression, and class exploitation. To question a professorial chair on the basis of merit is to question the entire structure of reproduction it upholds.
 
-## Install / run
+## Kenya Methodist University (KeMU) — A Case Study
 
-Requires Python 3.11+ (tested on 3.13). No packages.
+Under the guise of a "Christian university" whilst deeply enmeshed in **GEMA** patronage:
+- **Suppression of the sciences**: Mathematics, Physics, Chemistry, Biology, Computer Science and technical fields face disproportionate missing marks, grade obstruction and bureaucratic runarounds.
+- **Patronage over merit**: The connected are shielded regardless of competence or predatory conduct.
+- **Weaponised bureaucracy**: Endless committees bury complaints whilst graduation dates, scholarships and opportunities are stolen from students.
+- **Credential opacity**: The masses have no right to know if those who grade and lecture them are qualified to hold the titles they brandish.
 
-```sh
-# from this directory (so that `import plagcheck` resolves)
-python3 -m plagcheck check submission.docx --corpus corpus --html report.html
+## What SexForGrades Does
 
-# or put the package on your path and use the same entry point
-PYTHONPATH=. python3 -m plagcheck --version
-```
+SexForGrades repurposes robust **winnowing fingerprinting (MOSS-style)** for mass accountability:
 
-## Command line
-
-```sh
-# Check a document against a corpus and write reports
-python3 -m plagcheck check my-essay.docx \
-    --corpus corpus \
-    --exclude-quotes --exclude-references \
-    --html report.html --json report.json --text
-
-# Add live web sources (needs internet; repeatable)
-python3 -m plagcheck check essay.txt --corpus corpus --url https://example.com/a
-
-# Pre-build a reusable index
-python3 -m plagcheck index corpus --out corpus.index.json
-python3 -m plagcheck check essay.txt --index corpus.index.json
-
-# Repeated phrases within a single document
-python3 -m plagcheck internal my-essay.docx --k 8
-
-# Launch the browser UI
-python3 -m plagcheck serve --port 8000 --corpus corpus
-
-# Launch the desktop application
-python3 -m plagcheck gui --corpus corpus
-```
-
-Useful options:
-
-| Option | Meaning |
+| Capability | Purpose |
 |---|---|
-| `--k N` | shingle size in words (default 5) |
-| `--w N` | winnowing window (default 4) |
-| `--min-run N` | minimum matched run length in words (default `k+w-1`) |
-| `--exclude-quotes` | ignore quoted text |
-| `--exclude-references` | ignore the reference list |
-| `--url URL` | add a web source (repeatable) |
+| **Professor Qualification Audit** | Build a verifiable mass corpus of CVs, CUE/commission profiles, staff pages and public claims to expose those lacking credentials for tenured posts. |
+| **Publication Forensics** | Detect duplicate/recycled publications, suspiciously similar abstracts, and boilerplate across "research" used to justify tenure by patronage. |
+| **Thesis Supervision Mapping** | Cross-reference predatory or unqualified supervisors who claim expertise they do not possess. |
+| **Missing Marks Ledger** | A student-driven, fact-based mass ledger of missing marks, extortion attempts, and follow-ups. Record dates, offices, unit codes, responses — concrete facts for mass action. |
+| **Cover-Up Pattern Detection** | Expose identical copy-pasted committee/department responses sent to cohorts across years as proof of coordinated class defence. |
+| **Forensic Inspection** | Detect tampering: zero-width characters (U+200B/C/D/U+2060), bidirectional marks, homoglyphs, mixed scripts and suspicious edits. |
+| **Evidence Preservation** | Hash files (SHA256), maintain a timeline of events, and preserve auditable evidence for petitions, mass campaigns and legal action. |
+| **Privacy-First by Design** | Runs 100% offline. No telemetry, no cloud sync, no exlexfiltration. The masses control their own corpus. |
 
-## Desktop app
+## API / CLI Reference
 
-```sh
-python3 -m plagcheck gui --corpus corpus
+```bash
+# Identify & inspect documents forensics
+python3 -m sexforgrades identify <file>
+python3 -m sexforgrades inspect <file> --json
+python3 -m sexforgrades list-formats
+
+# Build and use mass evidence corpus
+python3 -m sexforgrades index <corpus_dir> --out sle.index.json
+python3 -m sexforgrades check <submission> --corpus <dir> --html audit_report.html
+python3 -m sexforgrades check <submission> --index sle.index.json --json-out report.json
+
+# Internal pattern detection (petitions/cover-up responses)
+python3 -m sexforgrades internal <file> --json
+
+# Policy, rights, dashboard & consent-based evidence locker
+python3 -m sexforgrades budget --input budget.csv --json
+python3 -m sexforgrades petition --type education
+python3 -m sexforgrades rights --json
+python3 -m sexforgrades dashboard --input aggregates.json --out dashboard.json
+python3 -m sexforgrades evidence-add --consent <id> --desc "..." --file evidence.pdf --json
+python3 -m sexforgrades evidence-export --consent <id> --out bundle.json
+
+# MCP server (stdio)
+python3 -m sexforgrades mcp
 ```
 
-The Tkinter window (standard library, no extra packages) lets you:
+Programmatic API:
+```python
+from sexforgrades import CorpusIndex, analyze, extract_text
+from sexforgrades.core import registry
+from sexforgrades import forensics
+from sexforgrades.policy import budget, petition, civic
+from sexforgrades.dashboard import aggregator
+from sexforgrades.evidence import locker
 
-- pick a corpus directory and rebuild the index with one click;
-- paste text or load a `.txt/.md/.docx/.pdf/...` file;
-- toggle quote/reference exclusion and set a minimum match length;
-- see the score, band, per-source table and matched-passage list;
-- view the document with matched runs **colour-highlighted** per source;
-- save the HTML or JSON report.
-
-If Tk is missing from your Python build (e.g. some minimal Linux packages),
-`plagcheck gui` prints a hint and you can use `plagcheck serve` instead.
-
-## How it works
-
-1. **Normalize** – text is tokenized into words with their character offsets;
-   optional filters blank quotes or the reference list *in place* so offsets
-   stay valid for highlighting.
-2. **Fingerprint** – each token becomes a 64-bit BLAKE2b hash; a rolling
-   polynomial hash turns them into overlapping *k*-gram hashes.
-3. **Winnow** – for every window of *w* consecutive k-grams the minimum hash is
-   kept. This guarantees that any shared passage of at least `k + w - 1` words
-   contributes at least one shared fingerprint, while shrinking the index.
-4. **Compare** – every k-gram of the submission is looked up in the corpus
-   inverted index; matched k-grams are merged into maximal runs. Runs shorter
-   than the threshold are discarded to avoid flagging common short phrases.
-5. **Score** – similarity is the share of the submission's words that fall
-   inside retained matched runs. Per-source percentages attribute each run to
-   the sources that share it.
-6. **Report** – HTML (highlighted), JSON and plain text.
-
-### Tuning
-
-- Raise `--k` and/or `--w` for fewer, longer matches (fewer false positives).
-- Lower `--min-run` to catch shorter borrowings (more false positives).
-- Turn on `--exclude-quotes --exclude-references` for academic submissions;
-  Turnitin excludes these from its score too.
-
-## Files
-
-```text
-plagcheck/
-  normalize.py     tokenization, in-place filters
-  fingerprint.py   hashing, rolling k-grams, winnowing
-  index.py         corpus index + JSON persistence
-  compare.py       matching, scoring, internal-duplication
-  extract.py       txt/md/html/docx/pdf readers, URL fetch
-  report.py        HTML/JSON/text reports
-  gui.py           Tkinter desktop application
-  cli.py           command-line interface
-  webapp.py        stdlib browser UI
-  tests/           unittest suite
-corpus/            reference documents (one file per source)
-examples/          sample submission
+ci = CorpusIndex(); ci.build("./corpus")
+res = analyze(extract_text("prof_cv.pdf"), ci)
+print(res.similarity, res.source_hits)
 ```
 
-## Adding sources to the corpus
+## Reporting Missing Marks & Sex-For-Grades (For Mass Action & Legal Action)
 
-Drop files into `corpus/` (any supported format). Each file becomes one source;
-its title is the first non-empty line. Rebuild the index or let `check` build it
-on the fly.
+- **Facts only**: Date, time, office/department, person contacted, unit code, exact response received, witnesses (if any).
+- **Evidence**: Save emails, SMS, result slips, fee receipts, official letters. Hash them locally.
+- **Consent**: Only share with verified legal counsel (e.g. FIDA Kenya, Kituo Cha Sheria, KNCHR) with explicit consent.
+- **Anonymise**: For mass petitions, aggregate patterns without exposing identities unless consented.
+- **Safety first**: If at immediate risk of retaliation, prioritise personal safety over documentation.
+- **Mass line**: Share aggregate findings with the student masses to build collective power.
 
-## Limitations
+## Guiding Principles
 
-- No built-in internet-wide index. Web comparison only covers URLs you supply.
-- PDF extraction is best-effort. It decodes most text PDFs via ToUnicode CMaps
-  but returns **no text** for image-only scans or unsupported encodings rather
-  than guessing. DOCX and plain text are the most reliable inputs.
-- The score is a lexical-similarity measure. It does not understand paraphrase,
-  citation context or common knowledge; always review matches manually.
-- Very large corpora are held in memory.
+- **Students First** — The engine belongs to the masses of students. Documentation for liberation, not harassment.
+- **Class Analysis** — Patronage, gender oppression and imperialism are material realities, not isolated incidents.
+- **Evidence Over Hearsay** — Public records, official documents, emails, published papers, first-hand documented testimony.
+- **Merit Over Patronage** — Restore academic merit and protect students in the sciences.
+- **Mass Line** — From the masses, to the masses. Investigate collectively, expose collectively, struggle collectively.
+- **Transparency & Auditable** — Open, auditable code. No hidden telemetry or data exfiltration.
+- **Safety & Consent** — Privacy, minimisation, and informed consent are non-negotiable.
+- **Liberation Through Knowledge** — Consciousness leads to struggle. Struggle leads to liberation.
 
-## Tests
+## The Mission
 
-```sh
-python3 -m unittest discover -s plagcheck/tests -t .
+**Question everything. Document everything. Verify everything. Unite to struggle.**
+
+Every student deserves to know: *Is the person holding a professorial chair actually qualified for it? Does their body of work justify tenure? Or are they there by patronage whilst blocking others and extorting those beneath them?*
+
+The era of blind reverence is over. The **Students Liberation Engine** exists to restore academic merit, expose the comprador class in academia, end impunity, and fight for a people's education free from extortion, gender oppression and patronage.
+
+*For every student bounced between offices at KeMU, UoN, KU, Moi, Egerton, JKUAT, Maseno, TUK, KPU, and every polytechnic fighting for their rightful marks. Solidarity with those currently protesting corrupt educators. The masses have nothing to lose but their chains.*
+
+## Donor Transparency & Whistleblowing
+
+Education in Kenya is commodified - universities and polytechnics extract fees from students whilst courting donors. Donor funding often comes with strings attached: ideological conditions, influence over appointments, restricted research, or prioritisation of donor-aligned programmes at the expense of the sciences and working students.
+
+SexForGrades includes a **Donor Watch** module to document this:
+
+- **Donor Whistleblowing**: Record donors, funding conditions, conflicts of interest, and evidence with hashes.
+- **Evidence-Based**: Store MOUs, emails, grant agreements, or meeting minutes with SHA256 verification.
+- **Aggregate Only**: Focus on patterns of influence - not personal attacks.
+- **Consent & Safety**: Follow the same privacy-first principles as the evidence locker.
+
+```bash
+# Report a donor with conditions/conflicts of interest
+python3 -m sexforgrades donor-report --donor "Example Foundation" --institution "KeMU" --details "Conditional funding tied to programme cuts" --condition "restrict research" --coi "board appointment" --file mou.pdf --json
+
+# Aggregate donor reports
+python3 -m sexforgrades donor-aggregate --out donor_aggregate.json --json
 ```
 
-## Licence
+## Mass Organisation Against Repression & Big Education Cartels
 
-Original code in this repository: use it freely. Cited third-party documents you
-add to a corpus keep their own terms.
+SexForGrades supports student self-organisation using the **mass line**: investigate, expose, unite, struggle.
+
+- **Campaign Tools**: Create system-focused campaigns (missing marks cartels, donor capture, science suppression) without targeting individuals for harassment.
+- **Mass Petitions**: Generate policy-based petitions with additional collective demands.
+- **Repression Defence**: Safety checklist and verified legal referrals (FIDA Kenya, Kituo Cha Sheria, KNCHR, ICJ Kenya).
+- **Cartel Exposure**: Combine Missing Marks Ledger, Donor Watch, and aggregate dashboards to expose cartels making graduation impossible through bureaucratic violence.
+
+```bash
+# Create a campaign
+python3 -m sexforgrades campaign-create --name "Free The Sciences" --demand "Ring-fence science funding" --demand "End missing marks weaponisation"
+
+# Add collective action
+python3 -m sexforgrades campaign-action --id free_the_sciences --type petition --desc "Collect signatures for mass petition"
+
+# Generate mass petition
+python3 -m sexforgrades mass-petition --institution KeMU --demand "Independent audit of results" --demand "Protection from retaliation"
+
+# Repression defence
+python3 -m sexforgrades repression-defense
+```
+
+## Handbook Inspection For Class Action
+
+Extract and inspect student handbooks (PDF/Word/Text) to find contradictions between rules and practice - fertile ground for class action:
+
+- **Due process**: Discretionary powers, summary action, ouster of appeal clauses
+- **Natural justice**: Bias, right to be heard, appeal timelines
+- **Missing marks**: Gaps between stated policy and weaponised practice
+- **Fees & exam barring**: Potentially unconstitutional restrictions
+- **Sexual harassment**: Enforcement mechanisms vs stated zero tolerance
+
+```bash
+# Inspect handbook
+python3 -m sexforgrades handbook-inspect ke_mu_student_handbook.pdf --out cracks.json --json
+```
+
+*For review by qualified Kenyan legal counsel. Focus on facts and contradictions.*
+
+## People's Education - Self-Paced Learning Framework
+
+Education must serve the masses, not commodified gatekeeping. SexForGrades includes a self-paced learning framework to build skills outside predatory systems:
+
+- **Mastery-Based**: Progress by demonstrated mastery, not time wasted in obstructionist bureaucracy.
+- **Student-Led**: Create learning paths for the sciences, technical skills, and critical theory.
+- **Collective**: Share resources, study groups, and build people's schools.
+- **Merit Through Competence**: Incentivise actual learning over rote compliance.
+
+```bash
+# Create learning path
+python3 -m sexforgrades learn-create --course "Mathematics for Liberation" --module "Algebra" --module "Calculus" --module "Proofs"
+
+# Assess mastery
+python3 -m sexforgrades learn-assess --done Algebra --done Calculus --req Algebra --req Calculus --req Proofs --json
+```
+
+## Classroom of the Future
+
+A people's classroom - offline-first, mastery-based, free of predatory gatekeeping. Public domain computer science textbooks first.
+
+- **Public Domain First**: Prioritise verified public domain works and open educational resources.
+- **Offline Capable**: Runs entirely offline. No accounts, no tracking.
+- **Self-Paced Mastery**: Learn at your own pace with mastery-based progression.
+- **Collective Education**: Study groups, people's schools, knowledge sharing.
+
+```bash
+# Catalog library
+python3 -m sexforgrades classroom-catalog
+
+# See recommended public domain CS books
+python3 -m sexforgrades classroom-curate
+
+# Add book metadata
+python3 -m sexforgrades classroom-add --title "SICP" --author "Abelson&Sussman" --json
+```
