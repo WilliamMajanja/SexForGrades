@@ -3,117 +3,170 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SexForGrades - Students Liberation Engine</title>
+    <title>SexForGrades | Students Liberation Engine</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg: #050505;
+            --panel: #0f0f0f;
+            --card: linear-gradient(165deg, #161616 0%, #0b0b0b 100%);
+            --red: #dc2626;
+            --crimson: #b91c1c;
+            --accent: #f87171;
+            --text: #e5e5e5;
+            --text-dim: #a3a3a3;
+            --border: #262626;
+        }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: linear-gradient(135deg, #0a0a0a 0%, #1a0000 100%); color: #e0e0e0; line-height: 1.6; }
-        header { background: linear-gradient(90deg, #8b0000 0%, #dc143c 100%); padding: 2rem; text-align: center; border-bottom: 3px solid #ff0000; }
-        header h1 { font-size: 2.5rem; font-weight: 700; letter-spacing: 2px; margin-bottom: 0.5rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); }
-        header p { font-size: 1.1rem; opacity: 0.95; font-style: italic; }
-        nav { background: #111; padding: 1rem; display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; border-bottom: 2px solid #333; }
-        nav button { background: #1a1a1a; color: #e0e0e0; border: 1px solid #444; padding: 0.5rem 1.5rem; cursor: pointer; border-radius: 4px; transition: all 0.3s; font-weight: 600; }
-        nav button:hover, nav button.active { background: #8b0000; border-color: #dc143c; }
-        main { max-width: 1200px; margin: 2rem auto; padding: 0 2rem; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
-        .card { background: linear-gradient(145deg, #151515 0%, #0f0f0f 100%); border: 1px solid #333; border-radius: 8px; padding: 1.5rem; transition: all 0.3s; box-shadow: 0 4px 6px rgba(0,0,0,0.5); }
-        .card:hover { border-color: #dc143c; box-shadow: 0 6px 12px rgba(139,0,0,0.4); transform: translateY(-2px); }
-        .card h2 { color: #ff4444; margin-bottom: 0.75rem; font-size: 1.3rem; border-bottom: 2px solid #8b0000; padding-bottom: 0.5rem; }
-        .card ul { list-style: none; }
-        .card li { padding: 0.4rem 0; padding-left: 1.2rem; position: relative; }
-        .card li:before { content: "▸"; position: absolute; left: 0; color: #dc143c; }
-        .quote { text-align: center; font-style: italic; font-size: 1.2rem; color: #ff6666; margin: 2rem 0; padding: 1.5rem; background: #111; border-left: 4px solid #dc143c; }
-        footer { text-align: center; padding: 2rem; background: #0a0a0a; border-top: 2px solid #333; margin-top: 3rem; }
-        .banner { font-family: monospace; white-space: pre; text-align: center; color: #ff4444; background: #000; padding: 1rem; overflow-x: auto; font-size: 0.7rem; }
+        body { font-family: 'Inter', system-ui, -apple-system, sans-serif; background: radial-gradient(circle at top, #1a0000, var(--bg) 60%); color: var(--text); line-height: 1.7; }
+        header { position: relative; overflow: hidden; text-align: center; padding: clamp(2rem, 6vw, 5rem) 1.5rem; }
+        header::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle, rgba(220,38,38,.25) 0%, transparent 70%); }
+        header::after { content: ""; position: absolute; inset: auto 0 0 0; height: 1px; background: linear-gradient(90deg, transparent, var(--red), transparent); }
+        .header-inner { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+        .badge { display: inline-flex; gap: .5rem; align-items: center; padding: .4rem 1rem; border-radius: 999px; border: 1px solid rgba(248,113,113,.6); text-transform: uppercase; letter-spacing: .4em; font-size: .7rem; color: var(--accent); }
+        h1 { font-size: clamp(2.5rem, 10vw, 7rem); text-transform: uppercase; letter-spacing: clamp(.8rem, 6vw, 4rem); font-weight: 800; }
+        .sub { color: var(--text-dim); max-width: 720px; font-size: clamp(1rem, 2vw, 1.2rem); }
+        nav { position: sticky; top: 0; z-index: 10; backdrop-filter: blur(16px); background: rgba(5,5,5,.8); border-bottom: 1px solid var(--border); display: flex; justify-content: center; flex-wrap: wrap; gap: .5rem; padding: .6rem 1rem; }
+        nav a { color: var(--text-dim); text-decoration: none; padding: .5rem 1rem; border-radius: 999px; font-weight: 500; transition: all .2s; }
+        nav a:hover, nav a.active { color: var(--text); background: rgba(220,38,38,.4); box-shadow: 0 0 0 1px rgba(248,113,113,.4); }
+        main { display: flex; flex-direction: column; gap: clamp(3rem, 8vw, 6rem); padding: clamp(2rem, 6vw, 5rem) clamp(1.2rem, 8vw, 8rem); }
+        .section-header { display: flex; flex-direction: column; gap: .6rem; margin-bottom: clamp(1.5rem, 4vw, 2.8rem); }
+        .eyebrow { text-transform: uppercase; letter-spacing: .4em; font-size: .7rem; color: var(--accent); }
+        .section-title { font-size: clamp(2rem, 6vw, 4rem); font-weight: 700; }
+        .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: clamp(1rem, 3vw, 1.8rem); }
+        .card { grid-column: 1 / -1; position: relative; border-radius: 1rem; overflow: hidden; border: 1px solid var(--border); background: var(--card); min-height: 280px; display: flex; flex-direction: column; justify-content: space-between; }
+        @media (min-width: 720px) { .card.span-6 { grid-column: span 6; } .card.span-4 { grid-column: span 4; } }
+        .card::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at top right, rgba(220,38,38,.18), transparent 55%); }
+        .card-content { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 1rem; padding: clamp(1.6rem, 4vw, 2.8rem); }
+        .card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; }
+        .card-title { font-size: clamp(1.6rem, 4vw, 2.6rem); font-weight: 600; }
+        .card-sub { color: var(--text-dim); max-width: 420px; }
+        .list { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: .8rem 1.6rem; padding: 0 clamp(1.6rem, 4vw, 2.8rem) clamp(1.6rem, 4vw, 2.8rem); list-style: none; }
+        .list li { display: flex; align-items: center; gap: .8rem; color: var(--text-dim); }
+        .list li::before { content: ""; width: .4rem; height: .4rem; border-radius: 50%; background: radial-gradient(circle, var(--accent), var(--red)); box-shadow: 0 0 0 6px rgba(220,38,38,.12); }
+        .quote { text-align: center; display: flex; flex-direction: column; gap: 1rem; padding: clamp(2rem, 8vw, 5rem) 1.5rem; }
+        .quote-text { font-size: clamp(1.8rem, 6vw, 4rem); font-weight: 600; }
+        .quote-sub { color: var(--accent); text-transform: uppercase; letter-spacing: .6em; font-size: .7rem; }
+        footer { border-top: 1px solid var(--border); text-align: center; display: flex; flex-direction: column; gap: .6rem; padding: 2rem 1.5rem; color: var(--text-dim); }
+        .mono { font-family: 'JetBrains Mono', monospace; font-size: .85rem; }
     </style>
 </head>
 <body>
     <header>
-        <h1>SEXFORGRADES</h1>
-        <p>Students Liberation Engine • Marxist-Leninist-Maoist Expressionism</p>
+        <div class="header-inner">
+            <span class="badge"><span>Students Liberation Engine</span></span>
+            <h1>SexForGrades</h1>
+            <p class="sub">Evidence-first forensic toolkit to audit patronage, expose missing marks and sex-for-grades, dismantle donor capture, and organise the masses for a people's education.</p>
+            <p class="mono">Marxist-Leninist-Maoist Expressionism • Zero-Dep • Offline-First • Privacy by Design</p>
+        </div>
     </header>
-    <div class="banner">
-    ╔═╗╔═╗═╗ ╦  ╔═╗╔═╗╦═╗╔═╗╦═╗╔═╗╔╦╗╔═╗
-    ╚═╗║╣ ╔╩╦╝  ╠╣ ║ ║╠╦╝║ ╦╠╦╝╠═╣ ║║╚═╗
-    ╚═╝╚═╝╩ ╚═   ╚  ╚═╝╩╚═╚═╝╩╚═╩ ╩═╩╝╚═╝
-    </div>
     <nav>
-        <button class="active">Home</button>
-        <button>Forensics</button>
-        <button>Evidence</button>
-        <button>Donor Watch</button>
-        <button>Organise</button>
-        <button>Handbook</button>
-        <button>Classroom</button>
-        <button>Printables</button>
+        <a class="active" href="#mission">Mission</a>
+        <a href="#forensics">Forensics</a>
+        <a href="#evidence">Evidence & Class Action</a>
+        <a href="#donors">Donor Watch</a>
+        <a href="#organise">Mass Organisation</a>
+        <a href="#handbook">Handbook</a>
+        <a href="#education">People's Education</a>
+        <a href="#resources">Resources</a>
     </nav>
     <main>
-        <div class="quote">"Question everything. Document everything. Verify everything. Unite to struggle."<br>"The masses have nothing to lose but their chains."</div>
-        <div class="grid">
-            <div class="card">
-                <h2>Forensic Auditing</h2>
-                <ul>
-                    <li>Professor Qualification Audit</li>
-                    <li>Publication Forensics</li>
-                    <li>Thesis Supervision Mapping</li>
-                    <li>Cover-Up Pattern Detection</li>
-                    <li>Document Forensics</li>
-                </ul>
+        <section id="mission">
+            <div class="section-header">
+                <span class="eyebrow">The Struggle</span>
+                <h2 class="section-title">Question. Document. Verify. Unite.</h2>
+                <p class="card-sub">For every student bounced between offices at KeMU, UoN, KU, Moi, Egerton, JKUAT, Maseno, TUK, KPU and every polytechnic fighting for their rightful marks.</p>
             </div>
-            <div class="card">
-                <h2>Missing Marks & Extortion</h2>
-                <ul>
-                    <li>Missing Marks Ledger</li>
-                    <li>Sex-For-Grades Documentation</li>
-                    <li>Evidence Preservation (SHA256)</li>
-                    <li>Consent-Based Evidence Locker</li>
-                    <li>Class Action Support</li>
-                </ul>
+        </section>
+        <section id="forensics">
+            <div class="section-header">
+                <span class="eyebrow">Forensic Auditing</span>
+                <h2 class="section-title">Expose Patronage Through Evidence</h2>
             </div>
-            <div class="card">
-                <h2>Donor Transparency</h2>
-                <ul>
-                    <li>Donor Whistleblowing</li>
-                    <li>Funding Conditions Tracking</li>
-                    <li>Conflicts of Interest</li>
-                    <li>Donor Capture Exposure</li>
-                    <li>Education Commodification</li>
-                </ul>
+            <div class="grid">
+                <article class="card span-6">
+                    <div class="card-content">
+                        <div class="card-header">
+                            <div>
+                                <h3 class="card-title">Professor Qualification Audit</h3>
+                                <p class="card-sub">Cross-reference CVs, CUE profiles, staff pages and publications against verifiable evidence.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="list">
+                        <li>Credential verification</li>
+                        <li>Tenure justification review</li>
+                        <li>Supervision legitimacy</li>
+                    </ul>
+                </article>
+                <article class="card span-6">
+                    <div class="card-content">
+                        <div class="card-header">
+                            <div>
+                                <h3 class="card-title">Publication Forensics</h3>
+                                <p class="card-sub">Winnowing fingerprinting to detect recycled publications and boilerplate used to justify patronage.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="list">
+                        <li>Abstract similarity</li>
+                        <li>Text recycling detection</li>
+                        <li>Co-authorship patterns</li>
+                    </ul>
+                </article>
             </div>
-            <div class="card">
-                <h2>Mass Organisation</h2>
-                <ul>
-                    <li>Campaign Tools</li>
-                    <li>Repression Defence</li>
-                    <li>Legal Referrals (FIDA, Kituo, KNCHR)</li>
-                    <li>Mass Petitions</li>
-                    <li>Cartel Exposure</li>
-                </ul>
+        </section>
+        <section id="evidence">
+            <div class="section-header">
+                <span class="eyebrow">Evidence & Class Action</span>
+                <h2 class="section-title">The Missing Marks Ledger</h2>
             </div>
-            <div class="card">
-                <h2>Handbook Inspection</h2>
-                <ul>
-                    <li>Legal Crack Detection</li>
-                    <li>Due Process Violations</li>
-                    <li>Natural Justice Concerns</li>
-                    <li>Class Action Evidence</li>
-                    <li>Contradiction Mapping</li>
-                </ul>
+            <div class="grid">
+                <article class="card span-4">
+                    <div class="card-content">
+                        <h3 class="card-title">Document</h3>
+                        <p class="card-sub">Facts only: dates, offices, unit codes, responses, witnesses.</p>
+                    </div>
+                    <ul class="list">
+                        <li>Missing marks</li>
+                        <li>Delayed results</li>
+                        <li>Extortion attempts</li>
+                    </ul>
+                </article>
+                <article class="card span-4">
+                    <div class="card-content">
+                        <h3 class="card-title">Preserve</h3>
+                        <p class="card-sub">Hash files, build timelines, maintain chain of custody.</p>
+                    </div>
+                    <ul class="list">
+                        <li>SHA256 verification</li>
+                        <li>Consent-based locker</li>
+                        <li>Legal bundle export</li>
+                    </ul>
+                </article>
+                <article class="card span-4">
+                    <div class="card-content">
+                        <h3 class="card-title">Fight</h3>
+                        <p class="card-sub">Feed evidence to verified counsel for class action.</p>
+                    </div>
+                    <ul class="list">
+                        <li>Cover-up pattern detection</li>
+                        <li>Aggregate dashboards</li>
+                        <li>Safety-first approach</li>
+                    </ul>
+                </article>
             </div>
-            <div class="card">
-                <h2>People's Education</h2>
-                <ul>
-                    <li>Self-Paced Learning</li>
-                    <li>Classroom of the Future</li>
-                    <li>Public Domain CS Textbooks</li>
-                    <li>Mastery-Based Progression</li>
-                    <li>People's Schools</li>
-                </ul>
-            </div>
-        </div>
+        </section>
+        <section class="quote">
+            <p class="quote-text">"Education is a weapon whose effect depends on who holds it in his hands and at whom it is aimed."</p>
+            <span class="quote-sub">Mass Line • Collective Power</span>
+        </section>
     </main>
     <footer>
-        <p><strong>For every student fighting for their rightful marks. Solidarity with those protesting corrupt educators.</strong></p>
-        <p style="margin-top: 0.5rem; opacity: 0.7;">Zero-dependency • Offline-first • Privacy by design • Evidence over hearsay</p>
+        <p><strong>SexForGrades — Students Liberation Engine</strong></p>
+        <p>Proprietary • Copyright © 2026 William Majanja • For student liberation and academic accountability</p>
+        <p class="mono">github.com/WilliamMajanja/SexForGrades</p>
     </footer>
 </body>
 </html>
