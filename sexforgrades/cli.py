@@ -421,6 +421,13 @@ def build_parser():
     s.add_argument("--json", action="store_true")
     s.set_defaults(func=cmd_repression_defense)
 
+
+    s = sub.add_parser("handbook-inspect", help="Inspect student handbook for legal cracks")
+    s.add_argument("file")
+    s.add_argument("--out")
+    s.add_argument("--json", action="store_true")
+    s.set_defaults(func=cmd_handbook_inspect)
+
     return p
 
 
@@ -541,4 +548,21 @@ def cmd_repression_defense(args):
         print("\nLEGAL REFERRALS:")
         for k, v in defense.get_legal_referrals().items():
             print(f"  {v['name']}: {v['focus']}")
+    return 0
+
+
+def cmd_handbook_inspect(args):
+    from .handbook import inspect
+    h = inspect.HandbookInspector()
+    res = h.inspect(args.file)
+    if args.json:
+        _print(res)
+    else:
+        print(f"Handbook: {res['file']}")
+        print(f"Red flags: {res['count']}")
+        for f in res['red_flags'][:20]:
+            print(f"  - {f['reason']}: {f['snippet'][:100]}...")
+        if args.out:
+            h.report(res, args.out)
+            print(f"Wrote report to {args.out}")
     return 0

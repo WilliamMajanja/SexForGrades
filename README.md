@@ -156,3 +156,20 @@ python3 -m sexforgrades mass-petition --institution KeMU --demand "Independent a
 # Repression defence
 python3 -m sexforgrades repression-defense
 ```
+
+## Handbook Inspection For Class Action
+
+Extract and inspect student handbooks (PDF/Word/Text) to find contradictions between rules and practice - fertile ground for class action:
+
+- **Due process**: Discretionary powers, summary action, ouster of appeal clauses
+- **Natural justice**: Bias, right to be heard, appeal timelines
+- **Missing marks**: Gaps between stated policy and weaponised practice
+- **Fees & exam barring**: Potentially unconstitutional restrictions
+- **Sexual harassment**: Enforcement mechanisms vs stated zero tolerance
+
+```bash
+# Inspect handbook
+python3 -m sexforgrades handbook-inspect ke_mu_student_handbook.pdf --out cracks.json --json
+```
+
+*For review by qualified Kenyan legal counsel. Focus on facts and contradictions.*
