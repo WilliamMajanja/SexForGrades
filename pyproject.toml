@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "plagcheck"
+version = "1.0.0"
+description = "Zero-dependency, Turnitin-style text similarity checker (stdlib only)"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+keywords = ["plagiarism", "similarity", "turnitin", "winnowing", "moss", "text"]
+dependencies = []
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Topic :: Text Processing",
+]
+
+[project.scripts]
+plagcheck = "plagcheck.cli:main"
+
+[tool.setuptools]
+packages = ["plagcheck"]
