@@ -443,6 +443,24 @@ def build_parser():
     s.add_argument("--json", action="store_true")
     s.set_defaults(func=cmd_learn_assess)
 
+
+    s = sub.add_parser("classroom-catalog", help="Catalog classroom library")
+    s.add_argument("--root", default="./classroom_library")
+    s.add_argument("--json", action="store_true")
+    s.set_defaults(func=cmd_classroom_catalog)
+
+    s = sub.add_parser("classroom-curate", help="Recommended public domain CS books")
+    s.add_argument("--json", action="store_true")
+    s.set_defaults(func=cmd_classroom_curate)
+
+    s = sub.add_parser("classroom-add", help="Add public domain book metadata")
+    s.add_argument("--title", required=True)
+    s.add_argument("--author", required=True)
+    s.add_argument("--path")
+    s.add_argument("--root", default="./classroom_library")
+    s.add_argument("--json", action="store_true")
+    s.set_defaults(func=cmd_classroom_add)
+
     return p
 
 
@@ -605,4 +623,39 @@ def cmd_learn_assess(args):
         _print(res)
     else:
         print(f"Mastery: {res['mastery']}, Completion: {res['completion']:.1f}%")
+    return 0
+
+
+def cmd_classroom_catalog(args):
+    from .classroom import core
+    c = core.PeoplesClassroom(library_root=args.root)
+    res = c.catalog()
+    if args.json:
+        _print(res)
+    else:
+        print(f"Books: {res['count']}")
+        for i in res['items'][:30]:
+            print(f"  - {i['name']} [{i['category']}]")
+    return 0
+
+
+def cmd_classroom_curate(args):
+    from .classroom import curate
+    res = curate.get_recommended_pd()
+    if args.json:
+        _print(res)
+    else:
+        for r in res:
+            print(f"- {r['title']} by {r['author']} ({r['note']})")
+    return 0
+
+
+def cmd_classroom_add(args):
+    from .classroom import core
+    c = core.PeoplesClassroom(library_root=args.root)
+    res = c.add_public_domain_book(args.title, args.author, args.path or "")
+    if args.json:
+        _print(res)
+    else:
+        print(f"Added metadata for {res['title']}")
     return 0

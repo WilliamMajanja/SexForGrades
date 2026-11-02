@@ -190,3 +190,23 @@ python3 -m sexforgrades learn-create --course "Mathematics for Liberation" --mod
 # Assess mastery
 python3 -m sexforgrades learn-assess --done Algebra --done Calculus --req Algebra --req Calculus --req Proofs --json
 ```
+
+## Classroom of the Future
+
+A people's classroom - offline-first, mastery-based, free of predatory gatekeeping. Public domain computer science textbooks first.
+
+- **Public Domain First**: Prioritise verified public domain works and open educational resources.
+- **Offline Capable**: Runs entirely offline. No accounts, no tracking.
+- **Self-Paced Mastery**: Learn at your own pace with mastery-based progression.
+- **Collective Education**: Study groups, people's schools, knowledge sharing.
+
+```bash
+# Catalog library
+python3 -m sexforgrades classroom-catalog
+
+# See recommended public domain CS books
+python3 -m sexforgrades classroom-curate
+
+# Add book metadata
+python3 -m sexforgrades classroom-add --title "SICP" --author "Abelson&Sussman" --json
+```
