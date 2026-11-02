@@ -378,6 +378,24 @@ def build_parser():
     s.add_argument("--root", default="./evidence_locker")
     s.set_defaults(func=cmd_evidence_export)
 
+
+    s = sub.add_parser("donor-report", help="Whistleblow on donors with conditions/conflicts of interest")
+    s.add_argument("--donor", required=True)
+    s.add_argument("--institution", required=True)
+    s.add_argument("--details", required=True)
+    s.add_argument("--condition", action="append")
+    s.add_argument("--coi", action="append")
+    s.add_argument("--file", action="append")
+    s.add_argument("--root", default="./donor_watch")
+    s.add_argument("--json", action="store_true")
+    s.set_defaults(func=cmd_donor_report)
+
+    s = sub.add_parser("donor-aggregate", help="Aggregate donor reports")
+    s.add_argument("--root", default="./donor_watch")
+    s.add_argument("--out")
+    s.add_argument("--json", action="store_true")
+    s.set_defaults(func=cmd_donor_aggregate)
+
     return p
 
 
@@ -401,3 +419,58 @@ def main(argv=None):
 
 if __name__ == "__main__":
     main()
+
+
+def cmd_donor_report(args):
+    from .donors import whistle
+
+    d = whistle.DonorTracker(root=args.root)
+    files = args.file or []
+    res = d.report(args.donor, args.institution, args.details, evidence_files=files, conditions=args.condition or [], conflict_of_interest=args.coi or [])
+    if args.json:
+        _print(res)
+    else:
+        print(f"Donor report {res['report_id']} recorded")
+    return 0
+
+
+def cmd_donor_aggregate(args):
+    from .donors import whistle
+
+    d = whistle.DonorTracker(root=args.root)
+    res = d.aggregate()
+    if args.json:
+        _print(res)
+    else:
+        print(f"{res['count']} donor reports")
+        if args.out:
+            __import__('json').dump(res, open(args.out,'w'), indent=2)
+            print(f"Wrote to {args.out}")
+    return 0
+
+
+def cmd_donor_report(args):
+    from .donors import whistle
+    d = whistle.DonorTracker(root=args.root)
+    files = args.file or []
+    res = d.report(args.donor, args.institution, args.details, evidence_files=files, conditions=args.condition or [], conflict_of_interest=args.coi or [])
+    if args.json:
+        _print(res)
+    else:
+        print(f"Donor report {res['report_id']} recorded")
+    return 0
+
+
+def cmd_donor_aggregate(args):
+    from .donors import whistle
+    d = whistle.DonorTracker(root=args.root)
+    res = d.aggregate()
+    if args.json:
+        _print(res)
+    else:
+        print(f"{res['count']} donor reports")
+        if args.out:
+            import json
+            open(args.out,'w').write(json.dumps(res, indent=2))
+            print(f"Wrote to {args.out}")
+    return 0

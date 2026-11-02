@@ -114,3 +114,22 @@ Every student deserves to know: *Is the person holding a professorial chair actu
 The era of blind reverence is over. The **Students Liberation Engine** exists to restore academic merit, expose the comprador class in academia, end impunity, and fight for a people's education free from extortion, gender oppression and patronage.
 
 *For every student bounced between offices at KeMU, UoN, KU, Moi, Egerton, JKUAT, Maseno, TUK, KPU, and every polytechnic fighting for their rightful marks. Solidarity with those currently protesting corrupt educators. The masses have nothing to lose but their chains.*
+
+## Donor Transparency & Whistleblowing
+
+Education in Kenya is commodified - universities and polytechnics extract fees from students whilst courting donors. Donor funding often comes with strings attached: ideological conditions, influence over appointments, restricted research, or prioritisation of donor-aligned programmes at the expense of the sciences and working students.
+
+SexForGrades includes a **Donor Watch** module to document this:
+
+- **Donor Whistleblowing**: Record donors, funding conditions, conflicts of interest, and evidence with hashes.
+- **Evidence-Based**: Store MOUs, emails, grant agreements, or meeting minutes with SHA256 verification.
+- **Aggregate Only**: Focus on patterns of influence - not personal attacks.
+- **Consent & Safety**: Follow the same privacy-first principles as the evidence locker.
+
+```bash
+# Report a donor with conditions/conflicts of interest
+python3 -m sexforgrades donor-report --donor "Example Foundation" --institution "KeMU" --details "Conditional funding tied to programme cuts" --condition "restrict research" --coi "board appointment" --file mou.pdf --json
+
+# Aggregate donor reports
+python3 -m sexforgrades donor-aggregate --out donor_aggregate.json --json
+```
