@@ -461,6 +461,11 @@ def build_parser():
     s.add_argument("--json", action="store_true")
     s.set_defaults(func=cmd_classroom_add)
 
+
+    s = sub.add_parser("ui", help="Launch elegant web UI")
+    s.add_argument("--port", type=int, default=8080)
+    s.set_defaults(func=cmd_ui)
+
     return p
 
 
@@ -658,4 +663,10 @@ def cmd_classroom_add(args):
         _print(res)
     else:
         print(f"Added metadata for {res['title']}")
+    return 0
+
+
+def cmd_ui(args):
+    from .ui import app
+    app.serve(port=args.port)
     return 0
