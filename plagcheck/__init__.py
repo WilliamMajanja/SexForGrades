@@ -1,4 +1,4 @@
-"""plagcheck: a zero-dependency, Turnitin-style text similarity checker.
+"""SexForGrades: documenting missing marks corruption in Kenyan Universities and Polytechnics., Turnitin-style text similarity checker.
 
 The package uses only the Python standard library. It fingerprints text with
 word n-grams and the winnowing algorithm (Schleimer, Wilkerson and Aiken, 2003)
